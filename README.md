@@ -1,5 +1,5 @@
-# Learn Bash in 10 minutes
-Learn Bash scripting in 10 minutes
+# Learn Bash in 27 minutes
+Learn Bash scripting in 27 minutes
 
 ![Bash logo](learnbash.jpg)
 This is inspired by 
@@ -23,9 +23,9 @@ Whenever you are typing in your Terminal/Console, you are in an interactive `bas
 Any command you can type here, like `ls`, `whoami`, `echo "hello"` qualifies as a bash command, 
 and can be used in a script.
 
-While in your terminal, enter the following commands:
+While in your terminal, enter the following command (don't copy the >, it's there to indicate the start of the command line):
 ```bash
-touch myscript.sh       # create the file 'myscript.sh' as an empty file
+> touch myscript.sh       # create the file 'myscript.sh' as an empty file
 ```
 
 Go edit this new file with your favorite text editor (Sublime/Vcode/JetBrains/...) and add the following 2 lines:
@@ -49,8 +49,8 @@ The value and/or context of a variable determines if it will be interpreted as a
 
 ```bash
 width=800               # variables are assigned with '='
-name="James Bond"       # strings with spaces should be delimted by " or '
-user_name1=jbond        # variable names can contains letters, digits and the characters . - _
+name="James Bond"       # strings with spaces should be delimited by " or '
+user_name1=jbond        # variable names can contain letters, digits and '_', but cannot start with a digit
 
 echo "Welcome $name!"   # variable are referenced with a $ prefix
 file="${user}_${uniq}"  # ${var} can be used to clearly delimit the name of the variable
@@ -73,9 +73,10 @@ script=$(basename "$0") # execute what is between $( ) and use the output as the
 ```
 
 ## Test or [[ ]]
-Bash has an essential '[test](https://ss64.com/bash/test.html)' program (e.g. `test -f output.txt`) that is most common used as `[[ -f output.txt ]]`. 
+Bash has an essential '[test](https://ss64.com/bash/test.html)' program (e.g. `test -f output.txt`) 
+that is most common used as `[[ -f output.txt ]]`. 
 There is also an older syntax of `[ -f output.txt ]`, but the double square brackets are preferred. 
-The program tests for a certain condition and returns with 0 ('ok') if the condition was met. 
+This program tests for a certain condition and returns with 0 ('ok') if the condition was met. 
 The purpose of this will become clear in the next chapter.
 ```bash
 [[ -f file.txt ]]       # file exists
@@ -122,7 +123,7 @@ export) do_export "$1" "$2"                       # you might know this as a 'sw
   ;;
 refresh) do_refresh "$2"
   ;;
-*)      echo "Unknozn option [$option]"
+*)      echo "Unknown option [$option]"
 esac
 ```
 
@@ -145,6 +146,10 @@ numbers[0]="one"          # replace 1st element (indexes start at 0) by "one"
 echo ${numbers[@]}        # [@] represents the whole array
 numbers=(${numbers[@]} 4) # add new element to array
 ${#numbers[@]}            # nb of elements in the array
+
+for element in ${numbers[@]} ; do
+  ...
+done
 ```
 
 ## Stdin, Stdout, Stderr
@@ -163,30 +168,35 @@ echo "Output"             # writes "Output" to stdout = terminal
 echo "Output" >&2         # writes "Output" to stderr = terminal
 program 2> /dev/null > output.txt # write stdout to output.txt, and ignore stderr
 program &> /output.txt    # redirect both stdout and stderr to output.txt
+```
+## Pipes
+The `|` (pipe) character is bash's superpower. It allows you to build sophisticated chains of programs, 
+where each passes its `stdout` to the next program's `stdin`. 
+If the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) prescribes 
+"_Write programs that do one thing and do it well_", 
+then bash is the perfect tool to glue all those specialised programs together.
+To sort, use `sort`, to search, use `grep`, to replace characters, use `tr`; 
+to chain all these together, use bash and its pipes.
 
-# the | (pipe character) is bash's superpower. It allows you to build sophisticated chains of programs.
+```bash
 ls | sort | head -1       # ls lists all filenames to its stdout, which is 'piped' (connected) to sort's stdin. 
                           # sort sends the sorted names to its stdout, which is piped to the stdin of 'head -1'.
                           # head will just take the first line from stdin and copy it to stdout and then stop
         
-# the following chain will return the 5 most occurring lines in all .txt files              
-cat *.txt \
-| sort \
-| uniq -c \
-| sort -nr \
-| head -5
+# the following chain will return the 5 most occurring non-comment lines in all .txt files              
+cat *.txt | grep -v '^#' | sort | uniq -c | sort -nr | head -5
+# this line gives a lowercase name for the current script (MyScript.sh -> myscript)
+script_name=$(basename "$0" .sh | tr "[:upper:]" "[:lower:]")
 ```
 ## Processes
 
+
 ## Error handling
+* `set -uo pipefail`
+* install [shellcheck](https://github.com/koalaman/shellcheck), ideally in your IDE
+
 
 ## Go and script!
 
-
-For more details, check the latest [documentation](https://golang.org/doc/),
-or for a less half-baked tutorial, please read the official
-[Go Tutorial](https://golang.org/doc/tutorial/getting-started) and [A Tour of Go](https://tour.golang.org/welcome/1).
-
-Other great tutorials you can read:
-
-- [Learn X in Y minutes](https://learnxinyminutes.com/docs/go/) (_Where X=Go_)
+- [SS64 Linux tools for Bash](https://ss64.com/bash/)
+- [Learn X in Y minutes](https://learnxinyminutes.com/docs/bash/) 
