@@ -168,6 +168,12 @@ echo "Output"             # writes "Output" to stdout = terminal
 echo "Output" >&2         # writes "Output" to stderr = terminal
 program 2> /dev/null > output.txt # write stdout to output.txt, and ignore stderr
 program &> /output.txt    # redirect both stdout and stderr to output.txt
+
+find . -name "*.txt" \
+| while read -r file ; do # while read is a good way to run some code for each line
+      output="$(basename "$file" .txt).out"
+      [[ ! -f "$output" ]] && < "$file" sort > "$output"
+  done
 ```
 ## Pipes
 The `|` (pipe) character is bash's superpower. It allows you to build sophisticated chains of programs, 
@@ -189,14 +195,26 @@ cat *.txt | grep -v '^#' | sort | uniq -c | sort -nr | head -5
 script_name=$(basename "$0" .sh | tr "[:upper:]" "[:lower:]")
 ```
 ## Processes
+```bash
+(                         # ( ... ) starts a new subshell with its own stdin/stdout
+cat *.txt
+curl -s https://host/archive.txt
+) | sort
 
+start_in_background &     # start the program and return immediately, don't wait for it to end
+
+git commit -a && git push   # 'git push' will only execute if 'git commit -a' finished without errors
+```
 
 ## Error handling
-* `set -uo pipefail`
+* `set -uo pipefail`: stop the script when errors happen
 * install [shellcheck](https://github.com/koalaman/shellcheck), ideally in your IDE
 
-
 ## Go and script!
+- use a strong bash boilerplate template like [pforret/bashew](https://github.com/pforret/basher)
+- discover all the [SS64 Linux tools for Bash](https://ss64.com/bash/)
+- [Learn bash in Y minutes](https://learnxinyminutes.com/docs/bash/) 
 
-- [SS64 Linux tools for Bash](https://ss64.com/bash/)
-- [Learn X in Y minutes](https://learnxinyminutes.com/docs/bash/) 
+## Advanced Bash
+- [Awesome Bash](https://github.com/awesome-lists/awesome-bash)
+- [Bash pitfalls](https://mywiki.wooledge.org/BashPitfalls)
