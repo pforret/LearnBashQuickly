@@ -185,9 +185,9 @@ To sort, use `sort`, to search, use `grep`, to replace characters, use `tr`;
 to chain all these together, use bash and its pipes.
 
 ```bash
-ls | sort | head -1       # ls lists all filenames to its stdout, which is 'piped' (connected) to sort's stdin. 
-                          # sort sends the sorted names to its stdout, which is piped to the stdin of 'head -1'.
-                          # head will just take the first line from stdin and copy it to stdout and then stop
+ls | sort | head -1       # ls lists filenames to its stdout, which is 'piped' (connected) to sort's stdin. 
+                          # sort sends the sorted names to its stdout, which is piped to stdin of 'head -1'.
+                          # head will just copy the first line from stdin to stdout and then stop
         
 # the following chain will return the 5 most occurring non-comment lines in all .txt files              
 cat *.txt | grep -v '^#' | sort | uniq -c | sort -nr | head -5
