@@ -1,3 +1,4 @@
+![version](https://img.shields.io/github/v/release/pforret/LearnBashQuickly)
 # Learn Bash in 27 minutes
 Learn Bash scripting in 27 minutes
 
