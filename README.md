@@ -1,4 +1,6 @@
 ![version](https://img.shields.io/github/v/release/pforret/LearnBashQuickly)
+[part of ![Bashful Scripting](https://img.shields.io/badge/bashful-scripting-orange) network](https://blog.forret.com/portfolio/bashful/)
+
 # Learn Bash in 27 minutes
 Learn Bash scripting in 27 minutes
 
