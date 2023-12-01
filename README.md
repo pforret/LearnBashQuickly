@@ -134,7 +134,7 @@ esac
 ## Functions
 ```bash
 myfunction(){           # bash functions are defined with <name>(){...} and have to be defined before they are used
-  # $1 = input          # functions cab be called with their own parameters, and they are also referenced as $1 $2
+  # $1 = input          # functions can be called with their own parameters, and they are also referenced as $1 $2
   # $2 = output         # this means that the main program's $1,$2...parameters are no longer available inside the function
   local error           # a variable can be defined with local scope. if not, variables are always global
   (...)
